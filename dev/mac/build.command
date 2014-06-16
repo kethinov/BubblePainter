@@ -7,11 +7,6 @@ hash npm 2>/dev/null || {
   exit 1
 }
 
-hash nodemon 2>/dev/null || {
-  echo "You must install nodemon run this program. Please enter your password to install nodemon:";
-  sudo npm install -g nodemon
-}
-
 if [ ! -d "app/node_modules" ]; then
   cd app
   mv package.json package.json.backup
