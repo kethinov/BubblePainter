@@ -8,6 +8,8 @@ Download
 
 - [Download latest version](https://github.com/kethinov/BubblePainter/releases/latest)
 
+<a href='https://github.com/kethinov/BubblePainter/releases/latest'><img src='https://raw.githubusercontent.com/kethinov/BubblePainter/master/dev/appicon.png' width='256' height='256'></a>
+
 Hack the source code
 ===
 
