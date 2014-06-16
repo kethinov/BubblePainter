@@ -1,12 +1,12 @@
 Bubble Painter
 ===
 
-Annoyed that you can't change the color of the message bubbles in OS X 10.10 Yosemite anymore? So was I!
+Annoyed that you can't change the colors of the message bubbles in OS X 10.10 Yosemite anymore? I was too! This app gives you back that ability.
 
 Download
 ===
 
-- Download version 1.0.0
+- [Download latest version](https://github.com/kethinov/BubblePainter/releases/latest)
 
 Hack the source code
 ===
