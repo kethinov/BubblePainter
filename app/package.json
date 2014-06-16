@@ -1,0 +1,39 @@
+{
+  "name": "Bubble Painter",
+  "description": "Customize the message bubbles in Messages.app in OS X 10.10 Yosemite",
+  "author": "Eric Newport <kethinov@gmail.com>",
+  "version": "1.0.0",
+  "homepage": "https://github.com/kethinov/BubblePainter",
+  "license": "Creative Commons Attribution 4.0 International License",
+  "main": "main.html",
+  "readmeFilename": "README.md",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "engineStrict": true,
+  "window": {
+    "toolbar": false,
+    "width": 720,
+    "min_width": 720,
+    "max_width": 720,
+    "height": 380,
+    "min_height": 380,
+    "max_height": 380
+  },
+  "dependencies": {
+    "css": "~1.6.0"
+  },
+  "jshintConfig": {
+    "camelcase": true,
+    "curly": true,
+    "devel": true,
+    "evil": true,
+    "indent": 2,
+    "node": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kethinov/BubblePainter.git"
+  },
+  "private": true
+}

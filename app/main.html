@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+    <title>Bubble Painter</title>
+    <link rel='stylesheet' href='main.css'>
+  </head>
+  <body>
+    <main>
+      <!-- templates will get rendered in here -->
+    </main>
+
+    <template id='index'>
+      <article class='index'>
+        <h1 class='icon'>Customize the message bubbles in Messages.app</h1>
+        <form action='/change' method='post'>
+          <section class='sent'>
+            <h1>Sent</h1>
+            <dl>
+              <dt><label for='senttop'>Top of gradient</label></dt>
+              <dd><input id='senttop' name='senttop' type='color'></dd>
+              <dt><label for='sentbottom'>Bottom of gradient</label></dt>
+              <dd><input id='sentbottom' name='sentbottom' type='color'></dd>
+              <dt><label for='sentText'>Text color</label></dt>
+              <dd><input id='sentText' name='sentText' type='color' value='#ffffff'></dd>
+            </dl>
+          </section>
+          <section class='received'>
+            <h1>Received</h1>
+            <dl>
+              <dt><label for='received'>Background</label></dt>
+              <dd><input id='received' name='received' type='color'></dd>
+              <dt><label for='receivedText'>Text color</label></dt>
+              <dd><input id='receivedText' name='receivedText' type='color' value='#000000'></dd>
+            </dl>
+          </section>
+          <ul class='actions'>
+            <li><button type='submit' name='change'>Apply</button></li>
+            <if altered>
+              <li><button type='submit' name='reset'>Reset to defaults</button></li>
+            </if>
+          </ul>
+        </form>
+      </article>
+    </template>
+
+    <template id='passPrompt'>
+      <article class='passPrompt'>
+        <h1>Enter your password to alter Messages.app</h1>
+        <if msg>
+          <p>{msg}</p>
+        </if>
+        <form action='/password' method='post'>
+          <dl>
+            <dt><label for='password'>Password</label></dt>
+            <dd><input id='password' name='password' type='password'></dd>
+          </dl>
+          <ul class='actions'>
+            <li><button type='submit' name='submit'>Submit</button></li>
+          </ul>
+        </form>
+      </article>
+    </template>
+
+    <template id='fileError'>
+      <article class='fileError'>
+        <h1>{msg}</h1>
+        <p>This app is designed for OS X 10.10 Yosemite.</p>
+        <p>If you are running Yosemite and are still seeing this error, please <a href='https://github.com/kethinov/BubblePainter/issues' rel='external'>file a bug</a>.</p>
+      </article>
+    </template>
+
+    <script>
+      global.window = window;
+      global.document = document;
+      global.location = location;
+      global.history = history;
+    </script>
+    <script src='lib/page_forked.js'></script>
+    <script src='lib/teddy.js'></script>
+    <script src='main.js'></script>
+  </body>
+</html>
