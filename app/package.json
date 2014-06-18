@@ -2,7 +2,7 @@
   "name": "Bubble Painter",
   "description": "Customize the message bubbles in Messages.app in OS X 10.10 Yosemite",
   "author": "Eric Newport <kethinov@gmail.com>",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/kethinov/BubblePainter",
   "license": "Creative Commons Attribution 4.0 International License",
   "main": "main.html",

@@ -52,7 +52,7 @@ function rgbToHex(r, g, b) {
 }
 
 function checkYourPrivilege(req, res, callback) {
-  fs.readFile(cssFile, 'utf8', function(err, data) {
+  fs.open(cssFile, 'r+', function(err, data) {
     if (err) {
       if (err.code === 'ENOENT') {
         res.render('fileError', {msg: 'Could not locate Messages.app preference files'});
