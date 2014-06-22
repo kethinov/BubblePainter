@@ -328,3 +328,9 @@ res.redirect('/');
 bubblepainter.on('close', function() {
   gui.App.quit();
 });
+
+// hide window until fully loaded
+window.addEventListener('load', function() {
+  gui.Window.get().show();
+  gui.Window.get().focus();
+});
