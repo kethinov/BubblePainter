@@ -1,4 +1,4 @@
-nw=0.9.2
+nw=0.10.0
 
 cd "`dirname "$0"`/../../"
 
@@ -20,8 +20,7 @@ fi
 if [ ! -d "dev/mac/node-webkit-v$nw-osx-ia32" ]; then
   echo "Downloading node-webkit v$nw development environment..."
   curl -sS http://dl.node-webkit.org/v$nw/node-webkit-v$nw-osx-ia32.zip > nw.zip
-  mkdir node-webkit-v$nw-osx-ia32
-  unzip nw.zip -d node-webkit-v$nw-osx-ia32/
+  unzip nw.zip -d .
   rm nw.zip
   mv node-webkit-v$nw-osx-ia32 dev/mac/
 fi

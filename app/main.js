@@ -5,6 +5,7 @@ var fs = require('fs'),
     cssFile = '/System/Library/Messages/PlugIns/Balloons.transcriptstyle/Contents/Resources/balloons-modern.css',
     gui = require('nw.gui'),
     bubblepainter = gui.Window.get(),
+    nativeMenuBar = new gui.Menu({type: 'menubar'}),
     configFile,
     parsedCss,
 
@@ -323,6 +324,10 @@ page();
 
 // render first page
 res.redirect('/');
+
+// render native mac menus
+nativeMenuBar.createMacBuiltin('Bubble Painter');
+bubblepainter.menu = nativeMenuBar;
 
 // handles cmd+q on OSX
 bubblepainter.on('close', function() {
