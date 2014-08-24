@@ -241,9 +241,24 @@ app.route('/change').post(function(req, res) {
       else {
         code += '/* begin Bubble Painter code */' + "\n";
 
-        // sent gradient
+        // sent gradient ("green bubble friends")
         code += '[from-me="yes"][emote="no"] messagetext {' + "\n";
         code += 'background-image:-webkit-linear-gradient('+req.body.senttop+', '+req.body.sentbottom+') !important;' + "\n";
+        code += '}' + "\n";
+
+        // sent when gradients-disabled is flagged ("green bubble friends")
+        code += '[disable-gradients="yes"] [from-me="yes"][emote="no"] messagetext {' + "\n";
+        code += 'background-color:rgb('+req.body.sentbottom+') !important;' + "\n";
+        code += '}' + "\n";
+        
+        // sent gradient (iMessage)
+        code += '[from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] messagetext {' + "\n";
+        code += 'background-image:-webkit-linear-gradient('+req.body.senttop+', '+req.body.sentbottom+') !important;' + "\n";
+        code += '}' + "\n";
+        
+        // sent when gradients-disabled is flagged (iMessage)
+        code += '[disable-gradients="yes"] [from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] messagetext {' + "\n";
+        code += 'background-color:rgb('+req.body.sentbottom+') !important;' + "\n";
         code += '}' + "\n";
 
         // received background color
