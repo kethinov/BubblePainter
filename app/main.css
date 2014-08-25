@@ -35,8 +35,17 @@ a:hover[rel='external'] {
   text-decoration: underline;
 }
 
+.disabled label,
+[disabled] {
+  opacity: 0.25;
+}
+
 main {
   padding: 25px;
+}
+
+dl {
+  overflow: hidden;
 }
 
 p {
@@ -92,6 +101,131 @@ dd {
 
 .received {
   float: left;
+/*  margin-bottom: 110px;*/
+}
+
+#sentcolors {
+  margin-bottom: 20px;
+}
+
+#isentcolors {
+  margin-top: 5px;
+}
+
+label[for=separateimessage] {
+  font-size: 80%;
+}
+
+#separateimessage {
+  margin-top: 6px;
+  float: right;
+}
+
+.preview {
+  background-color: #fff;
+  width: 420px;
+  clear: left;
+  border-radius: 10px;
+  border: 1px #c0c0c0 solid;
+  padding: 10px;
+}
+
+.preview p {
+  margin: 0;
+  font-size: 80%;
+}
+
+.received-preview {
+  clear: left;
+  position: relative;
+  max-width: 450px;
+  overflow: hidden;
+  padding: 7px;
+}
+
+.sent-preview,
+.isent-preview {
+  clear: left;
+  position: relative;
+  max-width: 450px;
+  overflow: hidden;
+  padding: 7px;
+}
+
+.received-preview div,
+.sent-preview div,
+.isent-preview div {
+  max-width: 255px;
+  word-wrap: break-word;
+  line-height: 24px;
+}
+
+.from-me {
+  position: relative;
+  padding: 5px 10px;
+  color: #fff; 
+  background:#0b93f6;
+  border-radius: 10px;
+  float: right;
+}
+		
+.from-me:before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  bottom: -2px;
+  right: -7px;
+  height: 20px;
+  border-right: 18px solid #0b93f6;
+  border-bottom-left-radius: 16px 14px;
+  -webkit-transform: translate(0, -2px);
+}
+
+.from-me:after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  bottom: -2px;
+  right: -56px;
+  width: 26px;
+  height: 20px;
+  background: #fff;
+  border-bottom-left-radius: 10px;
+  -webkit-transform: translate(-30px, -2px);
+}
+
+.from-them {
+  position: relative;
+  padding: 5px 10px;
+  background: #e5e5ea;
+  border-radius: 10px;
+  color: #000;
+  float: left;
+}
+		
+.from-them:before {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  bottom: -2px;
+  left: -7px;
+  height: 20px;
+  border-left: 18px solid #e5e5ea;
+  border-bottom-right-radius: 16px 14px;
+  -webkit-transform: translate(0, -2px);
+}
+
+.from-them:after {
+  content: '';
+  position: absolute;
+  z-index: 3;
+  bottom: -2px;
+  left: 4px;
+  width: 26px;
+  height: 20px;
+  background: #fff;
+  border-bottom-right-radius: 10px;
+  -webkit-transform: translate(-30px, -2px);
 }
 
 .actions {
@@ -99,7 +233,17 @@ dd {
   text-align: center;
 }
 
+form[action='/change'] .actions {
+  position: absolute;
+  bottom: 21px;
+  right: 13px;
+  width: 200px;
+  display: block;
+  text-align: right;
+}
+
 .actions li {
+  display: inline;
   margin: 10px;
 }
 

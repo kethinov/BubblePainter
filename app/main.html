@@ -17,13 +17,22 @@
         <form action='/change' method='post'>
           <section class='sent'>
             <h1>Sent</h1>
-            <dl>
+            <dl id='sentcolors'>
               <dt><label for='senttop'>Top of gradient</label></dt>
               <dd><input id='senttop' name='senttop' type='color'></dd>
               <dt><label for='sentbottom'>Bottom of gradient</label></dt>
               <dd><input id='sentbottom' name='sentbottom' type='color'></dd>
               <dt><label for='sentText'>Text color</label></dt>
               <dd><input id='sentText' name='sentText' type='color' value='#ffffff'></dd>
+            </dl>
+            <label for='separateimessage' title='This setting allows you to set special colors just for conversations with iMessage users.'>Separate colors for iMessage</label> <input type='checkbox' id='separateimessage' title='This setting allows you to set special colors just for conversations with iMessage users.' checked>
+            <dl id='isentcolors'>
+              <dt><label for='isenttop'>Top of gradient</label></dt>
+              <dd><input id='isenttop' name='isenttop' type='color'></dd>
+              <dt><label for='isentbottom'>Bottom of gradient</label></dt>
+              <dd><input id='isentbottom' name='isentbottom' type='color'></dd>
+              <dt><label for='isentText'>Text color</label></dt>
+              <dd><input id='isentText' name='isentText' type='color' value='#ffffff'></dd>
             </dl>
           </section>
           <section class='received'>
@@ -34,6 +43,23 @@
               <dt><label for='receivedText'>Text color</label></dt>
               <dd><input id='receivedText' name='receivedText' type='color' value='#000000'></dd>
             </dl>
+          </section>
+          <section class='preview'>
+            <section class='sent-preview'>
+              <div class='from-me'>
+                <p>Sent message (not over iMessage).</p>
+              </div>
+            </section>
+            <section class='received-preview'>
+              <div class='from-them'>
+                <p>Received message.</p>
+              </div>
+            </section>
+            <section class='isent-preview'>
+              <div class='from-me'>
+                <p>Sent message using iMessage.</p>
+              </div>
+            </section>
           </section>
           <ul class='actions'>
             <li><button type='submit' name='change'>Apply</button></li>

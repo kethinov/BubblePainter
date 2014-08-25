@@ -469,7 +469,7 @@
         l = form.elements.length;
         for (i = 0; i < l; i++) {
           control = form.elements[i];
-          if (control.nodeName != 'BUTTON' && control.type != 'submit') {
+          if (control.nodeName != 'BUTTON' && control.type != 'submit' && control.type != 'checkbox') {
             if (control.name) {
               body[control.name] = control.value;
             }
@@ -477,11 +477,19 @@
               body[control.id] = control.value;
             }
           }
+          else if (control.type == 'checkbox') { // todo: radio buttons
+            if (control.name) {
+              body[control.name] = control.checked;
+            }
+            else if (control.id) {
+              body[control.id] = control.checked;
+            }
+          }
         }
-        if (control.name) {
+        if (el.name) {
           body[el.name] = el.value;
         }
-        else if (control.id) {
+        else if (el.id) {
           body[el.id] = el.value;
         }
 
