@@ -2,6 +2,6 @@
   "name": "bubblepainter",
   "description": "this file exists because of a npm bug",
   "dependencies": {
-    "css": "~1.6.0"
+    "css": "^1.6.0"
   }
 }
