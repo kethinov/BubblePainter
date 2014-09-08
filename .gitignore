@@ -19,3 +19,5 @@ node_modules
 
 node-webkit-v*
 build
+
+bower_components

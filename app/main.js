@@ -446,6 +446,9 @@ app.route('/change').post(function(req, res) {
 // activate router
 page();
 
+// to do: activate page.js body-parser plugin
+// pageBodyParser();
+
 /*
  * initialize the app
  */
@@ -454,7 +457,9 @@ page();
 res.redirect('/');
 
 // render native mac menus
-nativeMenuBar.createMacBuiltin('Bubble Painter');
+nativeMenuBar.createMacBuiltin('Bubble Painter', {
+  hideEdit: true
+});
 bubblepainter.menu = nativeMenuBar;
 
 // handles cmd+q on OSX

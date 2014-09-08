@@ -1,4 +1,4 @@
-nw=0.10.0
+nw=0.10.4
 
 cd "`dirname "$0"`/../../"
 
@@ -14,6 +14,17 @@ if [ ! -d "app/node_modules" ]; then
   npm install
   mv package.json .package.npm.json
   mv package.json.backup package.json
+  cd ..
+fi
+
+hash bower 2>/dev/null || {
+  echo >&2 "You must install bower to run this program: http://bower.io"
+  exit 1
+}
+
+if [ ! -d "app/bower_components" ]; then
+  cd app
+  bower install
   cd ..
 fi
 

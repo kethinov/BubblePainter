@@ -1,0 +1,8 @@
+{
+  "name": "Bubble Painter",
+  "dependencies": {
+    "page.js": "*",
+    "page.js-body-parser.js": "*",
+    "teddy": "*"
+  }
+}
