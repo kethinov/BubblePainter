@@ -446,8 +446,8 @@ app.route('/change').post(function(req, res) {
 // activate router
 page();
 
-// to do: activate page.js body-parser plugin
-// pageBodyParser();
+// activate page.js body-parser plugin
+pageBodyParser();
 
 /*
  * initialize the app
