@@ -1,4 +1,6 @@
-nw=0.10.5
+cd "`dirname "$0"`/../"
+
+nw=$(cat nwversion.txt)
 
 cd "`dirname "$0"`/../../"
 
