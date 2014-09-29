@@ -22,7 +22,7 @@
     "max_height": 480
   },
   "dependencies": {
-    "css": "^1.6.0"
+    "css": "1.7.0"
   },
   "jshintConfig": {
     "camelcase": true,
