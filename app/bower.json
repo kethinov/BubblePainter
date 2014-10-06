@@ -3,6 +3,7 @@
   "dependencies": {
     "page.js": "*",
     "page.js-body-parser.js": "*",
+    "page.js-express-mapper.js": "*",
     "teddy": "*"
   }
 }

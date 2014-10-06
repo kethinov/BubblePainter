@@ -7,37 +7,19 @@ var fs = require('fs'),
     bubblepainter = gui.Window.get(),
     nativeMenuBar = new gui.Menu({type: 'menubar'}),
     configFile,
-    parsedCss,
+    parsedCss;
 
-    // imitate Express 4 API
-    res = {
-      render: function(template, model) {
-        if (!teddy.compiledTemplates[template]) {
-          teddy.compile(document.getElementById(template).innerHTML, template);
-        }
-        document.getElementsByTagName('main')[0].innerHTML = teddy.render(template + '.html', model);
-        secureExternalLinks();
-      },
-      redirect: function(route) {
-        page(route);
-      }
-    },
-    app = {
-      route: function(route) {
-        return {
-          get: function(callback) {
-            page(route, callback);
-          },
-          post: function(callback) {
-            page(route, callback);
-          }
-        }
-      }
-    };
-
-// make res global for express imitation purposes
-global.res = res;
-
+// activate express-mapper plugin
+pageExpressMapper({
+  renderMethod: function(template, model) {
+    if (!teddy.compiledTemplates[template]) {
+      teddy.compile(document.getElementById(template).innerHTML, template);
+    }
+    document.getElementsByTagName('main')[0].innerHTML = teddy.render(template + '.html', model);
+    secureExternalLinks();
+  },
+  expressAppName: 'app'
+});
 
 /*
  * utility methods
@@ -280,7 +262,6 @@ function secureExternalLinks() {
 
 // first page
 app.route('/').get(function(req, res) {
-  var res = global && global.res || res;
   checkYourPrivilege(req, res, function(req, res) {
     getDefaultColors(req, res, function(req, res, applyColors) {
       var model = {};
@@ -295,8 +276,6 @@ app.route('/').get(function(req, res) {
 
 // handler for when you change the colors
 app.route('/password').post(function(req, res) {
-  var res = global && global.res || res;
-
   if (typeof req.body.submit != 'undefined') {
     exec('echo '+req.body.password+' | sudo -S chmod 777 '+cssFile, function (error, stdout, stderr) {
       if (error !== null) {
@@ -311,8 +290,6 @@ app.route('/password').post(function(req, res) {
 
 // handler for when you change the colors
 app.route('/change').post(function(req, res) {
-  var res = global && global.res || res;
-
   if (typeof req.body.change != 'undefined') {
     // change button was pressed
     removeBubblePainterLines(req, res, function(req, res) {
@@ -454,7 +431,7 @@ pageBodyParser();
  */
 
 // render first page
-res.redirect('/');
+page('/');
 
 // render native mac menus
 nativeMenuBar.createMacBuiltin('Bubble Painter', {
