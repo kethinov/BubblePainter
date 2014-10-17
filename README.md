@@ -1,7 +1,7 @@
 Bubble Painter [![Gittip](http://img.shields.io/gittip/kethinov.png)](https://www.gittip.com/kethinov/)
 ===
 
-Apple seems to have removed the ability to customize the colors of the message bubbles in [Messages.app](http://en.wikipedia.org/wiki/Messages_%28application%29#OS_X_version) in [Mac OS X 10.10 Yosemite](http://www.apple.com/osx/preview/). This app gives you back that ability.
+Apple seems to have removed the ability to customize the colors of the message bubbles in [Messages.app](http://en.wikipedia.org/wiki/Messages_%28application%29#OS_X_version) in [Mac OS X 10.10 Yosemite](http://www.apple.com/osx). This app gives you back that ability.
 
 <a href='https://raw.githubusercontent.com/kethinov/BubblePainter/master/screenshot.png'><img src='https://raw.githubusercontent.com/kethinov/BubblePainter/master/screenshot.png'></a>
 
