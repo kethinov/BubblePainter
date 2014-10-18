@@ -280,6 +280,7 @@ app.route('/password').post(function(req, res) {
     exec('echo '+req.body.password+' | sudo -S chmod 777 '+cssFile, function (error, stdout, stderr) {
       if (error !== null) {
         res.render('passPrompt', {msg: 'Please enter a valid password.'});
+        document.getElementById('password').focus();
       }
       else {
         res.redirect('/');

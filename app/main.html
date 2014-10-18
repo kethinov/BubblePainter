@@ -73,19 +73,20 @@
 
     <template id='passPrompt'>
       <article class='passPrompt'>
-        <h1>Enter your password to alter Messages.app</h1>
+        <h1>Enter your account password to alter Messages.app</h1>
         <if msg>
           <p>{msg}</p>
         </if>
         <form action='/password' method='post'>
           <dl>
             <dt><label for='password'>Password</label></dt>
-            <dd><input id='password' name='password' type='password'></dd>
+            <dd><input id='password' name='password' type='password' autofocus></dd>
           </dl>
           <ul class='actions'>
             <li><button type='submit' name='submit'>Submit</button></li>
           </ul>
         </form>
+        <p><em>You must have administrator permissions on this account in order to alter Messages.app. Any changes you make will apply to all users of this Mac.</em></p>
       </article>
     </template>
 

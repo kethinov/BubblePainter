@@ -15,7 +15,7 @@ Download
 Hack the source code
 ===
 
-1. Clone this repo.
+1. Clone this repo
 2. To run the app from source code, open `dev/mac/start.command`
 3. To do a build, open `dev/mac/build.command`
 
