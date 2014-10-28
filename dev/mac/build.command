@@ -63,6 +63,6 @@ cp dev/appicon.png appicon.iconset/icon_512x512@2x.png
 iconutil -c icns appicon.iconset
 rm -R appicon.iconset
 mv appicon.icns build/node-webkit.app/Contents/Resources/
-mv appicon.icns build/node-webkit.app/Contents/Resources/nw.icns
+rm -rf appicon.icns build/node-webkit.app/Contents/Resources/nw.icns
 
 mv build/node-webkit.app "build/$appname.app"
