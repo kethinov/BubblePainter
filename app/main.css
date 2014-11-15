@@ -236,7 +236,7 @@ label[for=separateimessage] {
 form[action='/change'] .actions {
   position: absolute;
   bottom: 21px;
-  right: 22px;
+  right: 13px;
   width: 200px;
   display: block;
   text-align: right;
