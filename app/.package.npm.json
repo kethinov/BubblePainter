@@ -1,7 +1,0 @@
-{
-  "name": "bubblepainter",
-  "description": "this file exists because of a npm bug https://github.com/npm/npm/issues/5490",
-  "dependencies": {
-    "css": "1.7.0"
-  }
-}

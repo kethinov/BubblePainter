@@ -11,11 +11,7 @@ hash npm 2>/dev/null || {
 
 if [ ! -d "app/node_modules" ]; then
   cd app
-  mv package.json package.json.backup
-  mv .package.npm.json package.json
   npm install
-  mv package.json .package.npm.json
-  mv package.json.backup package.json
   cd ..
 fi
 
