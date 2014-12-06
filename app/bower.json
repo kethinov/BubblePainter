@@ -1,9 +1,9 @@
 {
   "name": "Bubble Painter",
   "dependencies": {
-    "page.js": "1.4.0",
-    "page.js-body-parser.js": "1.0.3",
-    "page.js-express-mapper.js": "1.0.2",
+    "page.js": "1.5.0",
+    "page.js-body-parser.js": "1.0.5",
+    "page.js-express-mapper.js": "1.0.3",
     "teddy": "0.3.4"
   }
 }
