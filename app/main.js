@@ -16,7 +16,6 @@ pageExpressMapper({
       teddy.compile(document.getElementById(template).innerHTML, template);
     }
     document.getElementsByTagName('main')[0].innerHTML = teddy.render(template + '.html', model);
-    secureExternalLinks();
   },
   expressAppName: 'app'
 });
@@ -233,25 +232,6 @@ function removeBubblePainterLines(req, res, callback) {
         req.writeError = err;
         callback(req, res);
       });
-    }
-  });
-}
-
-// suppress remaining links and open externals in new window
-function secureExternalLinks() {
-  var links = document.getElementsByTagName('a');
-  Object.keys(links).forEach(function(link) {
-    var link = links[link];
-    if (link.getAttribute) {
-      link.addEventListener('mousedown', function(e) {
-        e.preventDefault();
-      }, false);
-      if (link.getAttribute('rel') === 'external') {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          gui.Shell.openExternal(e.target.href);
-        }, false);
-      };
     }
   });
 }

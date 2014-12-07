@@ -1,6 +1,7 @@
 {
-  "name": "Bubble Painter",
+  "name": "nw-app",
   "dependencies": {
+    "node-webkit-external-linker.js": "1.0.1",
     "page.js": "1.5.0",
     "page.js-body-parser.js": "1.0.5",
     "page.js-express-mapper.js": "1.0.3",
