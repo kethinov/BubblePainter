@@ -7,7 +7,8 @@ var fs = require('fs'),
     bubblepainter = gui.Window.get(),
     nativeMenuBar = new gui.Menu({type: 'menubar'}),
     configFile,
-    parsedCss;
+    parsedCss,
+    needPassword = false;
 
 // activate express-mapper plugin
 pageExpressMapper({
@@ -40,7 +41,10 @@ function checkYourPrivilege(req, res, callback) {
         res.render('fileError', {msg: 'Could not locate Messages.app preference files'});
       }
       else {
-        res.render('passPrompt', {});
+        fs.open(cssFile, 'r', function(err, data) {
+          needPassword = true;
+          callback(req, res);
+        });
       }
     }
     else {
@@ -255,150 +259,159 @@ app.route('/').get(function(req, res) {
 });
 
 // handler for when you change the colors
-app.route('/password').post(function(req, res) {
-  if (typeof req.body.submit != 'undefined') {
-    exec('echo '+req.body.password+' | sudo -S chmod 777 '+cssFile, function (error, stdout, stderr) {
-      if (error !== null) {
-        res.render('passPrompt', {msg: 'Please enter a valid password.'});
-        document.getElementById('password').focus();
+app.route('/change').post(function(req, res) {
+  if (needPassword) {
+    exec("osascript -e \"do shell script \\\"chmod 777 "+cssFile+"\\\" with administrator privileges\"", function(error, stdout, stderr) {
+      if (!error && !stderr) {
+        needPassword = false;
+        change(req, res);
       }
       else {
-        res.redirect('/');
+        // do nothing
       }
     });
   }
-});
+  else {
+    change(req, res);
+  }
+  
+  function change(req, res) {
+    if (typeof req.body.change != 'undefined') {
+      // change button was pressed
+      removeBubblePainterLines(req, res, function(req, res) {
+        var code = "\n";
+        if (req.err) {
+          res.render('fileError', {msg: 'Could not write to Messages.app preference files'});
+        }
+        else {
+          localStorage.setItem('separateimessage', req.body.separateimessage);
 
-// handler for when you change the colors
-app.route('/change').post(function(req, res) {
-  if (typeof req.body.change != 'undefined') {
-    // change button was pressed
-    removeBubblePainterLines(req, res, function(req, res) {
-      var code = "\n";
-      if (req.err) {
-        res.render('fileError', {msg: 'Could not write to Messages.app preference files'});
-      }
-      else {
-        localStorage.setItem('separateimessage', req.body.separateimessage);
+          code += '/* begin Bubble Painter code */' + "\n";
 
-        code += '/* begin Bubble Painter code */' + "\n";
-
-        // sent gradient ("green bubble friends")
-        code += '[from-me="yes"][emote="no"] messagetext {' + "\n";
-        code += 'background-image:-webkit-linear-gradient('+req.body.senttop+', '+req.body.sentbottom+') !important;' + "\n";
-        code += '}' + "\n";
-
-        // sent when gradients-disabled is flagged ("green bubble friends")
-        code += '[disable-gradients="yes"] [from-me="yes"][emote="no"] messagetext {' + "\n";
-        code += 'background-color:rgb('+req.body.sentbottom+') !important;' + "\n";
-        code += '}' + "\n";
-
-        // sent text (global default)
-        code += '[item-type="text"] [emote="no"][from-me="yes"] span {' + "\n";
-        code += 'color:'+req.body.sentText+' !important;' + "\n";
-        code += '}' + "\n";
-
-        // sent links (global default)
-        code += '[from-me="yes"] a:link {' + "\n";
-        code += 'color:'+req.body.sentText+' !important;' + "\n";
-        code += '}' + "\n";
-        
-        if (!req.body.separateimessage) {
-          
-          // sent gradient (iMessage)
-          code += '[from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] messagetext {' + "\n";
+          // sent gradient ("green bubble friends")
+          code += '[from-me="yes"][emote="no"] messagetext {' + "\n";
           code += 'background-image:-webkit-linear-gradient('+req.body.senttop+', '+req.body.sentbottom+') !important;' + "\n";
           code += '}' + "\n";
 
-          // sent when gradients-disabled is flagged (iMessage)
-          code += '[disable-gradients="yes"] [from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] messagetext {' + "\n";
+          // sent when gradients-disabled is flagged ("green bubble friends")
+          code += '[disable-gradients="yes"] [from-me="yes"][emote="no"] messagetext {' + "\n";
           code += 'background-color:rgb('+req.body.sentbottom+') !important;' + "\n";
           code += '}' + "\n";
-        }
-        else {
-          
-          // sent gradient (iMessage)
-          code += '[from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] messagetext {' + "\n";
-          code += 'background-image:-webkit-linear-gradient('+req.body.isenttop+', '+req.body.isentbottom+') !important;' + "\n";
+
+          // sent text (global default)
+          code += '[item-type="text"] [emote="no"][from-me="yes"] span {' + "\n";
+          code += 'color:'+req.body.sentText+' !important;' + "\n";
           code += '}' + "\n";
 
-          // sent when gradients-disabled is flagged (iMessage)
-          code += '[disable-gradients="yes"] [from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] messagetext {' + "\n";
-          code += 'background-color:rgb('+req.body.isentbottom+') !important;' + "\n";
+          // sent links (global default)
+          code += '[from-me="yes"] a:link {' + "\n";
+          code += 'color:'+req.body.sentText+' !important;' + "\n";
           code += '}' + "\n";
 
-          // sent text (iMessage)
-          code += '[item-type="text"] [emote="no"][from-me="yes"][service="imessage"][typing-indicator="no"] span {' + "\n";
-          code += 'color:'+req.body.isentText+' !important;' + "\n";
-          code += '}' + "\n";
+          if (!req.body.separateimessage) {
 
-          // sent links (iMessage)
-          code += '[from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] a:link {' + "\n";
-          code += 'color:'+req.body.isentText+' !important;' + "\n";
-          code += '}' + "\n";
-        }
-          
-        // received background color
-        code += '[item-type="attachment"] [from-me="no"][emote="no"][typing-indicator="no"] messagetext,' + "\n";
-        code += '[item-type="audio-message"] [from-me="no"][emote="no"][typing-indicator="no"] messagetext,' + "\n";
-        code += '[from-me="no"][emote="no"][typing-indicator="no"] messagetext {' + "\n";
-        code += 'background-color:'+req.body.received+' !important;' + "\n";
-        code += '}' + "\n";
+            // sent gradient (iMessage)
+            code += '[from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] messagetext {' + "\n";
+            code += 'background-image:-webkit-linear-gradient('+req.body.senttop+', '+req.body.sentbottom+') !important;' + "\n";
+            code += '}' + "\n";
 
-        // received text
-        code += '[item-type="text"] [emote="no"][from-me="no"] span {' + "\n";
-        code += 'color:'+req.body.receivedText+' !important;' + "\n";
-        code += '}' + "\n";
-
-        // received links
-        code += '[from-me="no"] a:link {' + "\n";
-        code += 'color:'+req.body.receivedText+' !important;' + "\n";
-        code += '}' + "\n";
-
-        code += '/* end Bubble Painter code */' + "\n";
-        fs.appendFile(cssFile, code, 'utf8', function(err, data) {
-          if (err) {
-            res.render('fileError', {msg: 'Could not write to Messages.app preference files'});
+            // sent when gradients-disabled is flagged (iMessage)
+            code += '[disable-gradients="yes"] [from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] messagetext {' + "\n";
+            code += 'background-color:rgb('+req.body.sentbottom+') !important;' + "\n";
+            code += '}' + "\n";
           }
           else {
-            localStorage.setItem('senttop', req.body.senttop);
-            localStorage.setItem('sentbottom', req.body.sentbottom);
-            localStorage.setItem('received', req.body.received);
-            localStorage.setItem('sentText', req.body.sentText);
-            localStorage.setItem('receivedText', req.body.receivedText);
+
+            // sent gradient (iMessage)
+            code += '[from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] messagetext {' + "\n";
+            code += 'background-image:-webkit-linear-gradient('+req.body.isenttop+', '+req.body.isentbottom+') !important;' + "\n";
+            code += '}' + "\n";
+
+            // sent when gradients-disabled is flagged (iMessage)
+            code += '[disable-gradients="yes"] [from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] messagetext {' + "\n";
+            code += 'background-color:rgb('+req.body.isentbottom+') !important;' + "\n";
+            code += '}' + "\n";
+
+            // sent text (iMessage)
+            code += '[item-type="text"] [emote="no"][from-me="yes"][service="imessage"][typing-indicator="no"] span {' + "\n";
+            code += 'color:'+req.body.isentText+' !important;' + "\n";
+            code += '}' + "\n";
+
+            // sent links (iMessage)
+            code += '[from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] a:link {' + "\n";
+            code += 'color:'+req.body.isentText+' !important;' + "\n";
+            code += '}' + "\n";
+          }
+
+          // received background color
+          code += '[item-type="attachment"] [from-me="no"][emote="no"][typing-indicator="no"] messagetext,' + "\n";
+          code += '[item-type="audio-message"] [from-me="no"][emote="no"][typing-indicator="no"] messagetext,' + "\n";
+          code += '[from-me="no"][emote="no"][typing-indicator="no"] messagetext {' + "\n";
+          code += 'background-color:'+req.body.received+' !important;' + "\n";
+          code += '}' + "\n";
+
+          // received text
+          code += '[item-type="text"] [emote="no"][from-me="no"] span {' + "\n";
+          code += 'color:'+req.body.receivedText+' !important;' + "\n";
+          code += '}' + "\n";
+
+          // received links
+          code += '[from-me="no"] a:link {' + "\n";
+          code += 'color:'+req.body.receivedText+' !important;' + "\n";
+          code += '}' + "\n";
+
+          code += '/* end Bubble Painter code */' + "\n";
+          fs.appendFile(cssFile, code, 'utf8', function(err, data) {
+            if (err) {
+              res.render('fileError', {msg: 'Could not write to Messages.app preference files'});
+            }
+            else {
+              localStorage.setItem('senttop', req.body.senttop);
+              localStorage.setItem('sentbottom', req.body.sentbottom);
+              localStorage.setItem('received', req.body.received);
+              localStorage.setItem('sentText', req.body.sentText);
+              localStorage.setItem('receivedText', req.body.receivedText);
+              res.redirect('/');
+              exec('killall Messages && open /Applications/Messages.app', function(error, stdout, stderr) {
+                // ignore output
+              });
+            }
+          });
+        }
+      });
+    }
+
+    if (typeof req.body.reset != 'undefined') {
+      // reset button was pressed
+      removeBubblePainterLines(req, res, function(req, res) {
+        if (req.err) {
+          res.render('fileError', {msg: 'Could not write to Messages.app preference files'});
+        }
+        else {
+          localStorage.removeItem('senttop');
+          localStorage.removeItem('sentbottom');
+          localStorage.removeItem('sentText');
+          localStorage.removeItem('isenttop');
+          localStorage.removeItem('isentbottom');
+          localStorage.removeItem('isentText');
+          localStorage.removeItem('received');
+          localStorage.removeItem('receivedText');
+          localStorage.setItem('separateimessage', 'true');
+          exec("osascript -e \"do shell script \\\"chmod 755 "+cssFile+"\\\" with administrator privileges\"", function(error, stdout, stderr) {
+            needPassword = true;
             res.redirect('/');
-            exec('killall Messages && open /Applications/Messages.app', function (error, stdout, stderr) {
+            // ignore output
+            exec('killall Messages && open /Applications/Messages.app', function(error, stdout, stderr) {
               // ignore output
             });
-          }
-        });
-      }
-    });
+          });
+        }
+      });
+    }
   }
 
-  if (typeof req.body.reset != 'undefined') {
-    // reset button was pressed
-    removeBubblePainterLines(req, res, function(req, res) {
-      if (req.err) {
-        res.render('fileError', {msg: 'Could not write to Messages.app preference files'});
-      }
-      else {
-        localStorage.removeItem('senttop');
-        localStorage.removeItem('sentbottom');
-        localStorage.removeItem('sentText');
-        localStorage.removeItem('isenttop');
-        localStorage.removeItem('isentbottom');
-        localStorage.removeItem('isentText');
-        localStorage.removeItem('received');
-        localStorage.removeItem('receivedText');
-        localStorage.setItem('separateimessage', 'true');
-        res.redirect('/');
-        exec('killall Messages && open /Applications/Messages.app', function (error, stdout, stderr) {
-          // ignore output
-        });
-      }
-    });
-  }
+  
+
 });
 
 // activate router

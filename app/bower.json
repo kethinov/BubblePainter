@@ -2,7 +2,7 @@
   "name": "nw-app",
   "dependencies": {
     "node-webkit-external-linker.js": "1.0.2",
-    "page.js": "1.5.0",
+    "page.js": "1.6.0",
     "page.js-body-parser.js": "1.0.6",
     "page.js-express-mapper.js": "1.0.4",
     "teddy": "0.3.4"
