@@ -1,7 +1,7 @@
 {
   "name": "nw-app",
   "dependencies": {
-    "node-webkit-external-linker.js": "1.0.2",
+    "nw.js-external-linker.js": "1.0.3",
     "page.js": "1.6.1",
     "page.js-body-parser.js": "1.0.7",
     "page.js-express-mapper.js": "1.0.5",
