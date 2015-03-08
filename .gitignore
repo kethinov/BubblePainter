@@ -17,7 +17,7 @@ node_modules
 
 .jshintrc
 
-node-webkit-v*
+nwjs-v*
 build
 
 bower_components

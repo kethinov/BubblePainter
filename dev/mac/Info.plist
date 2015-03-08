@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
-	<string>node-webkit</string>
+	<string>nwjs</string>
 	<key>CFBundleIconFile</key>
 	<string>appicon.icns</string>
 	<key>CFBundleInfoDictionaryVersion</key>

@@ -33,12 +33,12 @@ if [ ! -d "app/bower_components" ]; then
   cd ..
 fi
 
-if [ ! -d "dev/mac/node-webkit-v$nw-osx-$nwa" ]; then
+if [ ! -d "dev/mac/nwjs-v$nw-osx-$nwa" ]; then
   echo "Downloading nw.js v$nw development environment..."
-  curl -sS http://dl.nwjs.io/v$nw/node-webkit-v$nw-osx-$nwa.zip > nw.zip
+  curl -sS http://dl.nwjs.io/v$nw/nwjs-v$nw-osx-$nwa.zip > nw.zip
   unzip nw.zip -d .
   rm nw.zip
-  mv node-webkit-v$nw-osx-$nwa dev/mac/
+  mv nwjs-v$nw-osx-$nwa dev/mac/
 fi
 
 if [ ! -d "build" ]; then
@@ -46,10 +46,10 @@ if [ ! -d "build" ]; then
 fi
 
 rm -rf "build/$appname.app"
-cp -R dev/mac/node-webkit-v$nw-osx-$nwa/node-webkit.app build/
-cp -R app build/node-webkit.app/Contents/Resources/
-mv build/node-webkit.app/Contents/Resources/app build/node-webkit.app/Contents/Resources/app.nw
-cp dev/mac/Info.plist build/node-webkit.app/Contents/
+cp -R dev/mac/nwjs-v$nw-osx-$nwa/nwjs.app build/
+cp -R app build/nwjs.app/Contents/Resources/
+mv build/nwjs.app/Contents/Resources/app build/nwjs.app/Contents/Resources/app.nw
+cp dev/mac/Info.plist build/nwjs.app/Contents/
 
 mkdir appicon.iconset
 sips -z 16 16     dev/appicon.png --out appicon.iconset/icon_16x16.png
@@ -64,7 +64,7 @@ sips -z 512 512   dev/appicon.png --out appicon.iconset/icon_512x512.png
 cp dev/appicon.png appicon.iconset/icon_512x512@2x.png
 iconutil -c icns appicon.iconset
 rm -R appicon.iconset
-mv appicon.icns build/node-webkit.app/Contents/Resources/
-rm -rf appicon.icns build/node-webkit.app/Contents/Resources/nw.icns
+mv appicon.icns build/nwjs.app/Contents/Resources/
+rm -rf appicon.icns build/nwjs.app/Contents/Resources/nw.icns
 
-mv build/node-webkit.app "build/$appname.app"
+mv build/nwjs.app "build/$appname.app"
