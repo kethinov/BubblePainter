@@ -57,12 +57,17 @@ li {
   list-style-type: none;
 }
 
-h1 {
+h1,
+h2 {
   margin: 0;
   font-size: 35px;
   font-family: 'HelveticaNeue-UltraLight';
   text-align: center;
   font-weight: 100;
+}
+
+h2 {
+  font-size: 32px;
 }
 
 h1.icon {
@@ -101,7 +106,21 @@ dd {
 
 .received {
   float: left;
-/*  margin-bottom: 110px;*/
+}
+
+.msgwidth dt,
+.msgwidth dd {
+  clear: both;
+  display: block;
+  width: 100%;
+}
+
+.msgwidth dd {
+  text-align: center;
+}
+
+.msgwidth input {
+  width: 99%;
 }
 
 #sentcolors {
@@ -112,12 +131,12 @@ dd {
   margin-top: 5px;
 }
 
-label[for=separateimessage] {
+label[for=sameforboth] {
   font-size: 80%;
 }
 
-#separateimessage {
-  margin-top: 6px;
+#sameforboth {
+  margin-top: 3px;
   float: right;
 }
 
@@ -155,9 +174,18 @@ label[for=separateimessage] {
 .received-preview div,
 .sent-preview div,
 .isent-preview div {
-  max-width: 255px;
+  width: 60%;
   word-wrap: break-word;
   line-height: 24px;
+}
+
+.received-preview p {
+  text-align: left;
+}
+
+.sent-preview p,
+.isent-preview p {
+  text-align: right;
 }
 
 .from-me {
@@ -235,8 +263,8 @@ label[for=separateimessage] {
 
 form[action='/change'] .actions {
   position: absolute;
-  bottom: 41px;
-  right: 13px;
+  bottom: 20px;
+  right: 20px;
   width: 200px;
   display: block;
   text-align: right;
@@ -245,6 +273,19 @@ form[action='/change'] .actions {
 .actions li {
   display: inline;
   margin: 10px;
+}
+
+.actions li:last-child {
+  margin: 10px 0;
+}
+
+.donate {
+  position: absolute;
+  bottom: 10px;
+  left: 25px;
+  width: 200px;
+  display: block;
+  text-align: left;
 }
 
 .passPrompt dl {

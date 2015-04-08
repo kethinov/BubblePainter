@@ -17,6 +17,18 @@
         <form action='/change' method='post'>
           <section class='sent'>
             <h1>Sent</h1>
+            <h2>via iMessage</h2>
+            <dl id='isentcolors'>
+              <dt><label for='isenttop'>Top of gradient</label></dt>
+              <dd><input id='isenttop' name='isenttop' type='color'></dd>
+              <dt><label for='isentbottom'>Bottom of gradient</label></dt>
+              <dd><input id='isentbottom' name='isentbottom' type='color'></dd>
+              <dt><label for='isentText'>Text color</label></dt>
+              <dd><input id='isentText' name='isentText' type='color' value='#ffffff'></dd>
+            </dl>
+            <h1>Sent</h1>
+            <h2>not via iMessage</h2>
+            <label for='sameforboth' title='This setting allows you to set special colors just for conversations with iMessage users.'>Same for both</label> <input type='checkbox' id='sameforboth' title='This setting allows you to set special colors just for conversations with iMessage users.'>
             <dl id='sentcolors'>
               <dt><label for='senttop'>Top of gradient</label></dt>
               <dd><input id='senttop' name='senttop' type='color'></dd>
@@ -25,14 +37,9 @@
               <dt><label for='sentText'>Text color</label></dt>
               <dd><input id='sentText' name='sentText' type='color' value='#ffffff'></dd>
             </dl>
-            <label for='separateimessage' title='This setting allows you to set special colors just for conversations with iMessage users.'>Separate colors for iMessage</label> <input type='checkbox' id='separateimessage' title='This setting allows you to set special colors just for conversations with iMessage users.' checked>
-            <dl id='isentcolors'>
-              <dt><label for='isenttop'>Top of gradient</label></dt>
-              <dd><input id='isenttop' name='isenttop' type='color'></dd>
-              <dt><label for='isentbottom'>Bottom of gradient</label></dt>
-              <dd><input id='isentbottom' name='isentbottom' type='color'></dd>
-              <dt><label for='isentText'>Text color</label></dt>
-              <dd><input id='isentText' name='isentText' type='color' value='#ffffff'></dd>
+            <dl class='msgwidth'>
+              <dt><h2><label for='msgwidth'>Message width</label></h2></dt>
+              <dd><input id='msgwidth' name='msgwidth' type='range' min='40' max='95' step='1' value='60'></dd>
             </dl>
           </section>
           <section class='received'>
@@ -45,19 +52,19 @@
             </dl>
           </section>
           <section class='preview'>
-            <section class='sent-preview'>
+            <section class='isent-preview'>
               <div class='from-me'>
-                <p>Sent message (not over iMessage).</p>
+                <p>Sent message via iMessage. Here is some extra text to show how it overflows.</p>
               </div>
             </section>
             <section class='received-preview'>
               <div class='from-them'>
-                <p>Received message.</p>
+                <p>Received message. Here is some extra text to show how it overflows.</p>
               </div>
             </section>
-            <section class='isent-preview'>
+            <section class='sent-preview'>
               <div class='from-me'>
-                <p>Sent message using iMessage.</p>
+                <p>Sent message not via iMessage. Here is some extra text to show how it overflows.</p>
               </div>
             </section>
           </section>

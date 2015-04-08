@@ -58,8 +58,10 @@ function setColors(skipInputs) {
       previewOverrideCss = '';
 
   if (!skipInputs) {
-    document.getElementById('separateimessage').checked = localStorage.getItem('separateimessage') === 'true' ? true : false;
+    document.getElementById('sameforboth').checked = localStorage.getItem('sameforboth') === 'true' ? true : false;
     
+    document.getElementById('msgwidth').value = localStorage.getItem('msgwidth');
+
     document.getElementById('received').value = localStorage.getItem('received');
     document.getElementById('receivedText').value = localStorage.getItem('receivedText');
 
@@ -77,35 +79,37 @@ function setColors(skipInputs) {
   }
   previewOverrideCss += '<style id="previewOverrides">';
 
+  previewOverrideCss += '.received-preview div,.sent-preview div,.isent-preview div {width: '+localStorage.getItem('msgwidth')+'% !important;}';
+
   previewOverrideCss += '.from-them{color:'+localStorage.getItem('receivedText')+' !important;background:'+localStorage.getItem('received')+' !important;}';
   previewOverrideCss += '.from-them:before{border-left:18px solid '+localStorage.getItem('received')+' !important;}';
 
-  previewOverrideCss += '.sent-preview .from-me{color:'+localStorage.getItem('sentText')+' !important;background:'+localStorage.getItem('sentbottom')+' !important;}';
-  previewOverrideCss += '.sent-preview .from-me:before{border-right:18px solid '+localStorage.getItem('sentbottom')+' !important;}';
+  previewOverrideCss += '.isent-preview .from-me{color:'+localStorage.getItem('isentText')+' !important;background:'+localStorage.getItem('isentbottom')+' !important;}';
+  previewOverrideCss += '.isent-preview .from-me:before{border-right:18px solid '+localStorage.getItem('isentbottom')+' !important;}';
 
-  if (document.getElementById('separateimessage').checked) {
-    document.getElementById('isentcolors').className = '';
-    document.getElementById('isenttop').removeAttribute('disabled');
-    document.getElementById('isentbottom').removeAttribute('disabled');
-    document.getElementById('isentText').removeAttribute('disabled');
+  if (document.getElementById('sameforboth').checked) {
+    document.getElementById('sentcolors').className = 'disabled';
+    document.getElementById('senttop').setAttribute('disabled', 'disabled');
+    document.getElementById('sentbottom').setAttribute('disabled', 'disabled');
+    document.getElementById('sentText').setAttribute('disabled', 'disabled');
 
-    previewOverrideCss += '.isent-preview .from-me{color:'+localStorage.getItem('isentText')+' !important;background:'+localStorage.getItem('isentbottom')+' !important;}';
-    previewOverrideCss += '.isent-preview .from-me:before{border-right:18px solid '+localStorage.getItem('isentbottom')+' !important;}';
+    previewOverrideCss += '.sent-preview .from-me{color:'+localStorage.getItem('isentText')+' !important;background:'+localStorage.getItem('isentbottom')+' !important;}';
+    previewOverrideCss += '.sent-preview .from-me:before{border-right:18px solid '+localStorage.getItem('isentbottom')+' !important;}';
   }
   else {
-    document.getElementById('isentcolors').className = 'disabled';
-    document.getElementById('isenttop').setAttribute('disabled', 'disabled');
-    document.getElementById('isentbottom').setAttribute('disabled', 'disabled');
-    document.getElementById('isentText').setAttribute('disabled', 'disabled');
+    document.getElementById('sentcolors').className = '';
+    document.getElementById('senttop').removeAttribute('disabled');
+    document.getElementById('sentbottom').removeAttribute('disabled');
+    document.getElementById('sentText').removeAttribute('disabled');
 
-    previewOverrideCss += '.isent-preview .from-me{color:'+localStorage.getItem('sentText')+' !important;background:'+localStorage.getItem('sentbottom')+' !important;}';
-    previewOverrideCss += '.isent-preview .from-me:before{border-right:18px solid '+localStorage.getItem('sentbottom')+' !important;}';
+    previewOverrideCss += '.sent-preview .from-me{color:'+localStorage.getItem('sentText')+' !important;background:'+localStorage.getItem('sentbottom')+' !important;}';
+    previewOverrideCss += '.sent-preview .from-me:before{border-right:18px solid '+localStorage.getItem('sentbottom')+' !important;}';
   }
   
   previewOverrideCss += '</style>';
   document.body.insertAdjacentHTML('beforeend', previewOverrideCss);
   
-  document.getElementById('separateimessage').onclick = setColors;
+  document.getElementById('sameforboth').onclick = setColors;
   document.getElementById('senttop').onchange = onColorChange;
   document.getElementById('sentbottom').onchange = onColorChange;
   document.getElementById('sentText').onchange = onColorChange;
@@ -114,6 +118,7 @@ function setColors(skipInputs) {
   document.getElementById('isentText').onchange = onColorChange;
   document.getElementById('received').onchange = onColorChange;
   document.getElementById('receivedText').onchange = onColorChange;
+  document.getElementById('msgwidth').onchange = onColorChange;
 }
 
 function onColorChange(e) {
@@ -132,7 +137,8 @@ function getDefaultColors(req, res, callback) {
         sentRgb,
         receivedRgb,
         sentHex,
-        receivedHex;
+        receivedHex,
+        msgwidth;
 
     if (err) {
       res.render('fileError', {msg: 'Could not locate Messages.app preference files'});
@@ -152,7 +158,18 @@ function getDefaultColors(req, res, callback) {
           rules = parsedCss.stylesheet.rules;
           for (i in rules) {
             rule = rules[i];
-            if (rule.selectors == '[from-me="yes"][emote="no"] messagetext') {
+            if (rule.selectors == '[typing-indicator="no"][emote="no"] messagetext') {
+              declarations = rule.declarations;
+              for (d in declarations) {
+                prop = declarations[d];
+                if (prop.property == 'max-width' && prop.value.indexOf('!important') == -1) {
+                  msgwidth = prop.value.split('%')[0];
+                  localStorage.setItem('msgwidth', msgwidth);
+                  break;
+                }
+              }
+            }
+            else if (rule.selectors == '[from-me="yes"][emote="no"] messagetext') {
               declarations = rule.declarations;
               for (d in declarations) {
                 prop = declarations[d];
@@ -284,61 +301,73 @@ app.route('/change').post(function(req, res) {
           res.render('fileError', {msg: 'Could not write to Messages.app preference files'});
         }
         else {
-          localStorage.setItem('separateimessage', req.body.separateimessage);
+          localStorage.setItem('sameforboth', req.body.sameforboth);
 
           code += '/* begin Bubble Painter code */' + "\n";
 
-          // sent gradient ("green bubble friends")
-          code += '[from-me="yes"][emote="no"] messagetext {' + "\n";
-          code += 'background-image:-webkit-linear-gradient('+req.body.senttop+', '+req.body.sentbottom+') !important;' + "\n";
+          // message width
+          code += '[typing-indicator="no"][emote="no"] messagetext {max-width: '+(parseInt(req.body.msgwidth) + 3)+'% !important;}' + "\n";
+          
+          // sent gradient (iMessage)
+          code += '[from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] messagetext {' + "\n";
+          code += 'background-image:-webkit-linear-gradient('+req.body.isenttop+', '+req.body.isentbottom+') !important;' + "\n";
           code += '}' + "\n";
 
-          // sent when gradients-disabled is flagged ("green bubble friends")
-          code += '[disable-gradients="yes"] [from-me="yes"][emote="no"] messagetext {' + "\n";
-          code += 'background-color:rgb('+req.body.sentbottom+') !important;' + "\n";
+          // sent when gradients-disabled is flagged (iMessage)
+          code += '[disable-gradients="yes"] [from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] messagetext {' + "\n";
+          code += 'background-color:rgb('+req.body.isentbottom+') !important;' + "\n";
           code += '}' + "\n";
 
-          // sent text (global default)
-          code += '[item-type="text"] [emote="no"][from-me="yes"] span {' + "\n";
-          code += 'color:'+req.body.sentText+' !important;' + "\n";
+          // sent text (iMessage)
+          code += '[item-type="text"] [emote="no"][from-me="yes"][service="imessage"][typing-indicator="no"] span {' + "\n";
+          code += 'color:'+req.body.isentText+' !important;' + "\n";
           code += '}' + "\n";
 
-          // sent links (global default)
-          code += '[from-me="yes"] a:link {' + "\n";
-          code += 'color:'+req.body.sentText+' !important;' + "\n";
+          // sent links (iMessage)
+          code += '[from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] a:link {' + "\n";
+          code += 'color:'+req.body.isentText+' !important;' + "\n";
           code += '}' + "\n";
-
-          if (!req.body.separateimessage) {
-
-            // sent gradient (iMessage)
-            code += '[from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] messagetext {' + "\n";
+          
+          if (!req.body.sameforboth) {
+            // sent gradient ("green bubble friends")
+            code += '[from-me="yes"][emote="no"] messagetext {' + "\n";
             code += 'background-image:-webkit-linear-gradient('+req.body.senttop+', '+req.body.sentbottom+') !important;' + "\n";
             code += '}' + "\n";
 
-            // sent when gradients-disabled is flagged (iMessage)
-            code += '[disable-gradients="yes"] [from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] messagetext {' + "\n";
+            // sent when gradients-disabled is flagged ("green bubble friends")
+            code += '[disable-gradients="yes"] [from-me="yes"][emote="no"] messagetext {' + "\n";
             code += 'background-color:rgb('+req.body.sentbottom+') !important;' + "\n";
+            code += '}' + "\n";
+
+            // sent text (global default)
+            code += '[item-type="text"] [emote="no"][from-me="yes"] span {' + "\n";
+            code += 'color:'+req.body.sentText+' !important;' + "\n";
+            code += '}' + "\n";
+
+            // sent links (global default)
+            code += '[from-me="yes"] a:link {' + "\n";
+            code += 'color:'+req.body.sentText+' !important;' + "\n";
             code += '}' + "\n";
           }
           else {
 
-            // sent gradient (iMessage)
-            code += '[from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] messagetext {' + "\n";
+            // sent gradient ("green bubble friends")
+            code += '[from-me="yes"][emote="no"] messagetext {' + "\n";
             code += 'background-image:-webkit-linear-gradient('+req.body.isenttop+', '+req.body.isentbottom+') !important;' + "\n";
             code += '}' + "\n";
 
-            // sent when gradients-disabled is flagged (iMessage)
-            code += '[disable-gradients="yes"] [from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] messagetext {' + "\n";
+            // sent when gradients-disabled is flagged ("green bubble friends")
+            code += '[disable-gradients="yes"] [from-me="yes"][emote="no"] messagetext {' + "\n";
             code += 'background-color:rgb('+req.body.isentbottom+') !important;' + "\n";
             code += '}' + "\n";
 
-            // sent text (iMessage)
-            code += '[item-type="text"] [emote="no"][from-me="yes"][service="imessage"][typing-indicator="no"] span {' + "\n";
+            // sent text (global default)
+            code += '[item-type="text"] [emote="no"][from-me="yes"] span {' + "\n";
             code += 'color:'+req.body.isentText+' !important;' + "\n";
             code += '}' + "\n";
 
-            // sent links (iMessage)
-            code += '[from-me="yes"][emote="no"][service="imessage"][typing-indicator="no"] a:link {' + "\n";
+            // sent links (global default)
+            code += '[from-me="yes"] a:link {' + "\n";
             code += 'color:'+req.body.isentText+' !important;' + "\n";
             code += '}' + "\n";
           }
@@ -396,7 +425,7 @@ app.route('/change').post(function(req, res) {
           localStorage.removeItem('isentText');
           localStorage.removeItem('received');
           localStorage.removeItem('receivedText');
-          localStorage.setItem('separateimessage', 'true');
+          localStorage.setItem('sameforboth', 'false');
           exec("osascript -e \"do shell script \\\"chmod 755 "+cssFile+"\\\" with administrator privileges\"", function(error, stdout, stderr) {
             needPassword = true;
             res.redirect('/');
@@ -409,9 +438,6 @@ app.route('/change').post(function(req, res) {
       });
     }
   }
-
-  
-
 });
 
 // activate router

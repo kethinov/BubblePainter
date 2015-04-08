@@ -2,7 +2,7 @@
   "name": "nw-app",
   "description": "Customize the message bubbles in Messages.app in OS X 10.10 Yosemite",
   "author": "Eric Newport <kethinov@gmail.com>",
-  "version": "2.0.10",
+  "version": "2.1.0",
   "homepage": "https://github.com/kethinov/BubblePainter",
   "license": "Creative Commons Attribution 4.0 International License",
   "main": "main.html",
@@ -17,9 +17,9 @@
     "width": 720,
     "min_width": 720,
     "max_width": 720,
-    "height": 500,
-    "min_height": 500,
-    "max_height": 500
+    "height": 720,
+    "min_height": 720,
+    "max_height": 720
   },
   "dependencies": {
     "css": "^1.6.0"
