@@ -3,6 +3,7 @@ var fs = require('fs'),
     exec = require('child_process').exec,
     css = require('css'),
     cssFile = '/System/Library/Messages/PlugIns/Balloons.transcriptstyle/Contents/Resources/balloons-modern.css',
+    elCapitanFile = '/System/Library/PrivateFrameworks/SocialUI.framework/Versions/A/Resources/balloons-modern.css',
     gui = require('nw.gui'),
     bubblepainter = gui.Window.get(),
     nativeMenuBar = new gui.Menu({type: 'menubar'}),
@@ -38,7 +39,13 @@ function checkYourPrivilege(req, res, callback) {
   fs.open(cssFile, 'r+', function(err, data) {
     if (err) {
       if (err.code === 'ENOENT') {
-        res.render('fileError', {msg: 'Could not locate Messages.app preference files'});
+        if (cssFile !== elCapitanFile) {
+          cssFile = elCapitanFile;
+          checkYourPrivilege(req, res, callback);
+        }
+        else {
+          res.render('fileError', {msg: 'Could not locate Messages.app preference files'});
+        }
       }
       else {
         fs.open(cssFile, 'r', function(err, data) {
