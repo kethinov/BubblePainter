@@ -5,14 +5,47 @@ Apple seems to have removed the ability to customize the colors of the message b
 
 <a href='https://raw.githubusercontent.com/kethinov/BubblePainter/master/screenshot.png'><img src='https://raw.githubusercontent.com/kethinov/BubblePainter/master/assets/screenshot.png'></a>
 
-Download
+How to install
 ===
 
-- [Download latest version](https://github.com/kethinov/BubblePainter/releases/latest)
+First [Download latest version](https://github.com/kethinov/BubblePainter/releases/latest) <a href='https://github.com/kethinov/BubblePainter/releases/latest'><img src='https://raw.githubusercontent.com/kethinov/BubblePainter/master/dev/appicon.png' width='32' height='32'></a>
 
-<a href='https://github.com/kethinov/BubblePainter/releases/latest'><img src='https://raw.githubusercontent.com/kethinov/BubblePainter/master/dev/appicon.png' width='256' height='256'></a>
+Then if you're running OS X 10.11 El Capitan or a later version of OS X, you will need to disable System Integrity Protection temporarily in order to use Bubble Painter.
 
-Hack the source code
+Disable System Integrity Protection temporarily
+---
+
+On OS X 10.11 El Capitan or later versions of OS X, you must disable System Integrity Protection temporarily to use this app.
+
+*Note: none of this is necessary on OS X 10.10 Yosemite. Only OS X 10.11 El Capitan or later versions of OS X.*
+
+Here's how:
+
+Restart your Mac and hold down <img src='https://raw.githubusercontent.com/kethinov/BubblePainter/master/assets/cmdr.png' width='25%' height='25%' alt='⌘ Command + R'> until the Apple logo appears on your screen.
+
+You should now see this:
+
+<img src='https://raw.githubusercontent.com/kethinov/BubblePainter/master/assets/recoverymode.png'>
+
+Now open the `Utilities` menu and select `Terminal`:
+
+<img src='https://raw.githubusercontent.com/kethinov/BubblePainter/master/assets/terminal1.png'>
+
+In the Terminal Window that opens, enter the following command: `csrutil disable`
+
+Then press the return key, you should then see the following message:
+
+<img src='https://raw.githubusercontent.com/kethinov/BubblePainter/master/assets/terminal2.png'>
+
+Then restart your Mac and Bubble Painter should work.
+
+**It is recommended that you reenable System Integrity Protection afterwards.**
+
+To reenable System Integrity Protection, follow the same steps as above, but enter the following terminal command instead: `csrutil enable`
+
+Then simply reboot again.
+
+How to hack this app's source code
 ===
 
 1. Clone this repo
