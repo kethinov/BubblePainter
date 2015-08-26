@@ -8,7 +8,7 @@ Apple seems to have removed the ability to customize the colors of the message b
 How to install
 ===
 
-First [Download latest version](https://github.com/kethinov/BubblePainter/releases/latest) <a href='https://github.com/kethinov/BubblePainter/releases/latest'><img src='https://raw.githubusercontent.com/kethinov/BubblePainter/master/dev/appicon.png' width='32' height='32'></a>
+First [download latest version](https://github.com/kethinov/BubblePainter/releases/latest) <a href='https://github.com/kethinov/BubblePainter/releases/latest'><img src='https://raw.githubusercontent.com/kethinov/BubblePainter/master/dev/appicon.png' width='32' height='32'></a>
 
 Then if you're running OS X 10.11 El Capitan or a later version of OS X, you will need to disable System Integrity Protection temporarily in order to use Bubble Painter.
 
