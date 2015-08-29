@@ -31,7 +31,7 @@ Now open the `Utilities` menu and select `Terminal`:
 
 <img src='https://raw.githubusercontent.com/kethinov/BubblePainter/master/assets/terminal1.png'>
 
-In the Terminal Window that opens, enter the following command: `csrutil disable`
+In the Terminal window that opens, enter the following command: `csrutil disable`
 
 Then press the return key, you should then see the following message:
 
