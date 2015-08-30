@@ -33,7 +33,7 @@ Now open the `Utilities` menu and select `Terminal`:
 
 In the Terminal window that opens, enter the following command: `csrutil disable`
 
-Then press the return key, you should then see the following message:
+Then press the return key. Afterward you should see the following message:
 
 <img src='https://raw.githubusercontent.com/kethinov/BubblePainter/master/assets/terminal2.png'>
 
