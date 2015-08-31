@@ -39,7 +39,7 @@ Then press the return key. Afterward you should see the following message:
 
 Then restart your Mac and Bubble Painter should work.
 
-**It is recommended that you reenable System Integrity Protection afterwards.**
+**It is recommended that you reenable System Integrity Protection after you're done using Bubble Painter.**
 
 To reenable System Integrity Protection, follow the same steps as above, but enter the following terminal command instead: `csrutil enable`
 
