@@ -45,6 +45,8 @@ To reenable System Integrity Protection, follow the same steps as above, but ent
 
 Then simply reboot again.
 
+It's a [known issue](https://github.com/kethinov/BubblePainter/issues/29) that going through this much hassle sucks. If you have an idea for how to avoid all this being necessary, I'd love to hear it!
+
 How to hack this app's source code
 ===
 
