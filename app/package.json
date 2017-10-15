@@ -4,7 +4,7 @@
   "author": "Eric Newport <kethinov@gmail.com>",
   "version": "2.1.1",
   "homepage": "https://github.com/kethinov/BubblePainter",
-  "license": "Creative Commons Attribution 4.0 International License",
+  "license": "CC-BY-4.0",
   "main": "main.html",
   "readmeFilename": "README.md",
   "engines": {
