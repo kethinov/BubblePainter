@@ -3,6 +3,8 @@ Bubble Painter
 
 Apple removed the ability to customize the colors of the message bubbles in [Messages.app](http://en.wikipedia.org/wiki/Messages_%28application%29#OS_X_version) in Mac OS X 10.10 Yosemite. This app gives you back that ability.
 
+**As of macOS 10.14 Mojave, I have not time to maintain this project, so it may not work well on recent versions of macOS. Pull requests to help with the maintenance welcome!**
+
 <a href='https://raw.githubusercontent.com/kethinov/BubblePainter/master/screenshot.png'><img src='https://raw.githubusercontent.com/kethinov/BubblePainter/master/assets/screenshot.png'></a>
 
 How to install
